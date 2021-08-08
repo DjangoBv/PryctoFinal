@@ -23,6 +23,7 @@ namespace DAO
         public string sint_cons { get; set; }
         [Display(Name = "Diagmóstico")]
         public string diag_cons { get; set; }
+        [Display(Name = "Id Mascota")]
         public string id_mas { get; set; }
     
         public virtual tb_mascota tb_mascota { get; set; }
