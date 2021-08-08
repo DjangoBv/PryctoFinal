@@ -1,0 +1,46 @@
+﻿@using DAO
+@model List<tb_cliente>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Cliente</h2>
+@*<a onclick="modalCrearCategoria()" class="btn btn-info glyphicon glyphicon-plus" title="Nuevo Cliente"></a>*@
+@Html.ActionLink("Crear", "New", "Clientes")
+<table class="table">
+    <thead>
+        <tr>
+            <td>Identificador</td>
+            <td>Nombre</td>
+            <td>Apellidos</td>
+            <td>Telefono Fijo</td>  
+            <td>Celular</td>
+            <td>Correo Electrónico</td>
+            <td>Dirección</td>
+            <td>Acciones</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.id_cli</td>
+            <td>@item.nom_cli</td>
+            <td>@item.ape_cli</td>
+            <td>@item.telFijo_cli</td>
+            <td>@item.telMovil_cli</td>
+            <td>@item.cor_cli</td>
+            <td>@item.dir_cli</td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.id_cli }) |
+                @Html.ActionLink(" ", "Delete", new { id = item.id_cli }, new
+                {
+                    @class = "btn btn-danger glyphicon glyphicon-remove",
+                    @title = "Eliminar",
+                    @onclick = "return confirm('¿Desea eliminar la Categoría?');"
+                })
+            </td>
+        </tr>}
+    </tbody>
+</table>

@@ -1,0 +1,50 @@
+﻿@using DAO;
+@model tb_mascota
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Regsitrar Nueva Mascota</h2>
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.id_mas, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.id_mas, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.nom_mas, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.nom_mas, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.fecNacimiento_mas, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.fecNacimiento_mas, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.raza_mas, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.raza_mas, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.id_cli, new { @class = "control-label" })
+            <select class="form-control" name="id_cli">
+                @foreach (var item in ViewBag.ListaCliente)
+                {
+                    <option value="@item.id_cli">@item.id_cli</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.id_tipMas, new { @class = "control-label" })
+            <select class="form-control" name="id_tipMas">
+                @foreach (var item in ViewBag.ListaTipoMascota)
+                {
+                    <option value="@item.id_tipMas">@item.descripcion_tipMas</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Registrar" class="btn btn-success" />
+        </div>
+    </div>
+}

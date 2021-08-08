@@ -1,0 +1,46 @@
+﻿@using DAO
+@model  tb_cliente
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Editar</h2>
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.id_cli)
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.LabelFor(modelo => modelo.id_cli, new { @class = "control-label" })
+        @*<label>@Model.id_cli</label>*@
+        @Html.TextBoxFor(model => model.id_cli, htmlAttributes: new { @class = "form-control", @readonly="readonly" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(modelo => modelo.nom_cli, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.nom_cli, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(modelo => modelo.ape_cli, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.ape_cli, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(modelo => modelo.telFijo_cli, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.telFijo_cli, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(modelo => modelo.telMovil_cli, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.telMovil_cli, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(modelo => modelo.cor_cli, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.cor_cli, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(modelo => modelo.dir_cli, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.dir_cli, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Registrar" class="btn btn-success" />
+    </div>
+</div>
+}

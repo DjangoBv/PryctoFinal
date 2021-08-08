@@ -1,0 +1,44 @@
+﻿@using DAO
+@model List<tb_consulta>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Consultas</h2>
+@*<a onclick="modalCrearCategoria()" class="btn btn-info glyphicon glyphicon-plus" title="Nuevo Cliente"></a>*@
+@Html.ActionLink("Crear", "New", "Consultas")
+<table class="table">
+    <thead>
+        <tr>
+            <td>Identificador</td>
+            <td>Fecha Consulta</td>
+            <td>Sintomas</td>
+            <td>Diagnostico</td>
+            <td>Id Mascosta</td>
+            <td>Nombre Mascosta</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.id_cons</td>
+            <td>@item.fec_cons</td>
+            <td>@item.sint_cons</td>
+            <td>@item.diag_cons</td>
+            <td>@item.id_mas</td>
+            <td>@item.tb_mascota.nom_mas</td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.id_cons }) |
+                @Html.ActionLink(" ", "Delete", new { id = item.id_cons }, new
+                {
+                    @class = "btn btn-danger glyphicon glyphicon-remove",
+                    @title = "Eliminar",
+                    @onclick = "return confirm('¿Desea eliminar la Categoría?');"
+                })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

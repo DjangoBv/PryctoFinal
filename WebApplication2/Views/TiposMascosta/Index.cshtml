@@ -1,0 +1,50 @@
+﻿@using DAO
+@model List<tb_tipoMascota>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Descripción</td>
+            <td>Acciones</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>@item.id_tipMas</td>
+    <td>@item.descripcion_tipMas</td>
+    <td>
+        @Html.ActionLink("Editar", "Edit", new { id = item.id_tipMas }) |
+        @Html.ActionLink("Eliminar", "Delete", new { id = item.id_tipMas})
+        @*@if (@item.idCategoria == 2)
+                {
+        @Html.ActionLink(" ", "Activar"
+            , new { id = item.idCategoria }
+            , new
+            {
+                @class = "btn btn-success glyphicon glyphicon-ok",
+                @title = "Activar",
+                @onclick = "return confirm('¿Desea eliminar la Categoría?');"
+            }) }
+                        else
+                        {
+        @Html.ActionLink(" ", "Delete"
+                , new { id = item.idCategoria }
+                , new
+                {
+                    @class = "btn btn-danger glyphicon glyphicon-remove",
+                    @title = "Eliminar",
+                    @onclick = "return confirm('¿Desea eliminar la Categoría?');"
+                })                }*@
+
+    </td>
+</tr>}
+    </tbody>
+</table>

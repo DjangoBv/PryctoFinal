@@ -1,0 +1,474 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BD_VETERINARIAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tb_cliente">
+          <Key>
+            <PropertyRef Name="id_cli" />
+          </Key>
+          <Property Name="id_cli" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="nom_cli" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="ape_cli" Type="varchar" MaxLength="40" />
+          <Property Name="telFijo_cli" Type="varchar" MaxLength="9" />
+          <Property Name="telMovil_cli" Type="varchar" MaxLength="9" />
+          <Property Name="cor_cli" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="dir_cli" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="tb_consulta">
+          <Key>
+            <PropertyRef Name="id_cons" />
+          </Key>
+          <Property Name="id_cons" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="fec_cons" Type="datetime" Nullable="false" />
+          <Property Name="sint_cons" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="diag_cons" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="id_mas" Type="varchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_mascota">
+          <Key>
+            <PropertyRef Name="id_mas" />
+          </Key>
+          <Property Name="id_mas" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="nom_mas" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="fecNacimiento_mas" Type="datetime" Nullable="false" />
+          <Property Name="raza_mas" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="id_cli" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="id_tipMas" Type="varchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_reserva">
+          <Key>
+            <PropertyRef Name="id_res" />
+          </Key>
+          <Property Name="id_res" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="fec_res" Type="datetime" Nullable="false" />
+          <Property Name="id_cli" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="id_mas" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="id_usu" Type="int" />
+        </EntityType>
+        <EntityType Name="tb_tipoMascota">
+          <Key>
+            <PropertyRef Name="id_tipMas" />
+          </Key>
+          <Property Name="id_tipMas" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="descripcion_tipMas" Type="varchar" MaxLength="40" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_usuarioVet">
+          <Key>
+            <PropertyRef Name="id_usu" />
+          </Key>
+          <Property Name="id_usu" Type="int" Nullable="false" />
+          <Property Name="usuario" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="contraseña" Type="varchar" MaxLength="6" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_id_cli">
+          <End Role="tb_cliente" Type="Self.tb_cliente" Multiplicity="1" />
+          <End Role="tb_mascota" Type="Self.tb_mascota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_cliente">
+              <PropertyRef Name="id_cli" />
+            </Principal>
+            <Dependent Role="tb_mascota">
+              <PropertyRef Name="id_cli" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_cli2">
+          <End Role="tb_cliente" Type="Self.tb_cliente" Multiplicity="1" />
+          <End Role="tb_reserva" Type="Self.tb_reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_cliente">
+              <PropertyRef Name="id_cli" />
+            </Principal>
+            <Dependent Role="tb_reserva">
+              <PropertyRef Name="id_cli" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_mas">
+          <End Role="tb_mascota" Type="Self.tb_mascota" Multiplicity="1" />
+          <End Role="tb_consulta" Type="Self.tb_consulta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_mascota">
+              <PropertyRef Name="id_mas" />
+            </Principal>
+            <Dependent Role="tb_consulta">
+              <PropertyRef Name="id_mas" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_mas2">
+          <End Role="tb_mascota" Type="Self.tb_mascota" Multiplicity="1" />
+          <End Role="tb_reserva" Type="Self.tb_reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_mascota">
+              <PropertyRef Name="id_mas" />
+            </Principal>
+            <Dependent Role="tb_reserva">
+              <PropertyRef Name="id_mas" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_tipMas">
+          <End Role="tb_tipoMascota" Type="Self.tb_tipoMascota" Multiplicity="1" />
+          <End Role="tb_mascota" Type="Self.tb_mascota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_tipoMascota">
+              <PropertyRef Name="id_tipMas" />
+            </Principal>
+            <Dependent Role="tb_mascota">
+              <PropertyRef Name="id_tipMas" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_usu">
+          <End Role="tb_usuarioVet" Type="Self.tb_usuarioVet" Multiplicity="0..1" />
+          <End Role="tb_reserva" Type="Self.tb_reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_usuarioVet">
+              <PropertyRef Name="id_usu" />
+            </Principal>
+            <Dependent Role="tb_reserva">
+              <PropertyRef Name="id_usu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BD_VETERINARIAModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_cliente" EntityType="Self.tb_cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_consulta" EntityType="Self.tb_consulta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_mascota" EntityType="Self.tb_mascota" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_reserva" EntityType="Self.tb_reserva" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_tipoMascota" EntityType="Self.tb_tipoMascota" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_usuarioVet" EntityType="Self.tb_usuarioVet" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_id_cli" Association="Self.fk_id_cli">
+            <End Role="tb_cliente" EntitySet="tb_cliente" />
+            <End Role="tb_mascota" EntitySet="tb_mascota" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_cli2" Association="Self.fk_id_cli2">
+            <End Role="tb_cliente" EntitySet="tb_cliente" />
+            <End Role="tb_reserva" EntitySet="tb_reserva" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_mas" Association="Self.fk_id_mas">
+            <End Role="tb_mascota" EntitySet="tb_mascota" />
+            <End Role="tb_consulta" EntitySet="tb_consulta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_mas2" Association="Self.fk_id_mas2">
+            <End Role="tb_mascota" EntitySet="tb_mascota" />
+            <End Role="tb_reserva" EntitySet="tb_reserva" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_tipMas" Association="Self.fk_id_tipMas">
+            <End Role="tb_tipoMascota" EntitySet="tb_tipoMascota" />
+            <End Role="tb_mascota" EntitySet="tb_mascota" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_usu" Association="Self.fk_id_usu">
+            <End Role="tb_usuarioVet" EntitySet="tb_usuarioVet" />
+            <End Role="tb_reserva" EntitySet="tb_reserva" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BD_VETERINARIAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tb_cliente">
+          <Key>
+            <PropertyRef Name="id_cli" />
+          </Key>
+          <Property Name="id_cli" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nom_cli" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ape_cli" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="telFijo_cli" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="telMovil_cli" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="cor_cli" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dir_cli" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tb_mascota" Relationship="Self.fk_id_cli" FromRole="tb_cliente" ToRole="tb_mascota" />
+          <NavigationProperty Name="tb_reserva" Relationship="Self.fk_id_cli2" FromRole="tb_cliente" ToRole="tb_reserva" />
+        </EntityType>
+        <EntityType Name="tb_consulta">
+          <Key>
+            <PropertyRef Name="id_cons" />
+          </Key>
+          <Property Name="id_cons" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fec_cons" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="sint_cons" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="diag_cons" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_mas" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tb_mascota" Relationship="Self.fk_id_mas" FromRole="tb_consulta" ToRole="tb_mascota" />
+        </EntityType>
+        <EntityType Name="tb_mascota">
+          <Key>
+            <PropertyRef Name="id_mas" />
+          </Key>
+          <Property Name="id_mas" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nom_mas" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecNacimiento_mas" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="raza_mas" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_cli" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_tipMas" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tb_cliente" Relationship="Self.fk_id_cli" FromRole="tb_mascota" ToRole="tb_cliente" />
+          <NavigationProperty Name="tb_consulta" Relationship="Self.fk_id_mas" FromRole="tb_mascota" ToRole="tb_consulta" />
+          <NavigationProperty Name="tb_reserva" Relationship="Self.fk_id_mas2" FromRole="tb_mascota" ToRole="tb_reserva" />
+          <NavigationProperty Name="tb_tipoMascota" Relationship="Self.fk_id_tipMas" FromRole="tb_mascota" ToRole="tb_tipoMascota" />
+        </EntityType>
+        <EntityType Name="tb_reserva">
+          <Key>
+            <PropertyRef Name="id_res" />
+          </Key>
+          <Property Name="id_res" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fec_res" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="id_cli" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_mas" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tb_cliente" Relationship="Self.fk_id_cli2" FromRole="tb_reserva" ToRole="tb_cliente" />
+          <NavigationProperty Name="tb_mascota" Relationship="Self.fk_id_mas2" FromRole="tb_reserva" ToRole="tb_mascota" />
+          <Property Name="id_usu" Type="Int32" />
+          <NavigationProperty Name="tb_usuarioVet" Relationship="BD_VETERINARIAModel.fk_id_usu" FromRole="tb_reserva" ToRole="tb_usuarioVet" />
+        </EntityType>
+        <EntityType Name="tb_tipoMascota">
+          <Key>
+            <PropertyRef Name="id_tipMas" />
+          </Key>
+          <Property Name="id_tipMas" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion_tipMas" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tb_mascota" Relationship="Self.fk_id_tipMas" FromRole="tb_tipoMascota" ToRole="tb_mascota" />
+        </EntityType>
+        <Association Name="fk_id_cli">
+          <End Role="tb_cliente" Type="Self.tb_cliente" Multiplicity="1" />
+          <End Role="tb_mascota" Type="Self.tb_mascota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_cliente">
+              <PropertyRef Name="id_cli" />
+            </Principal>
+            <Dependent Role="tb_mascota">
+              <PropertyRef Name="id_cli" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_cli2">
+          <End Role="tb_cliente" Type="Self.tb_cliente" Multiplicity="1" />
+          <End Role="tb_reserva" Type="Self.tb_reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_cliente">
+              <PropertyRef Name="id_cli" />
+            </Principal>
+            <Dependent Role="tb_reserva">
+              <PropertyRef Name="id_cli" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_mas">
+          <End Role="tb_mascota" Type="Self.tb_mascota" Multiplicity="1" />
+          <End Role="tb_consulta" Type="Self.tb_consulta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_mascota">
+              <PropertyRef Name="id_mas" />
+            </Principal>
+            <Dependent Role="tb_consulta">
+              <PropertyRef Name="id_mas" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_mas2">
+          <End Role="tb_mascota" Type="Self.tb_mascota" Multiplicity="1" />
+          <End Role="tb_reserva" Type="Self.tb_reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_mascota">
+              <PropertyRef Name="id_mas" />
+            </Principal>
+            <Dependent Role="tb_reserva">
+              <PropertyRef Name="id_mas" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_tipMas">
+          <End Role="tb_tipoMascota" Type="Self.tb_tipoMascota" Multiplicity="1" />
+          <End Role="tb_mascota" Type="Self.tb_mascota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_tipoMascota">
+              <PropertyRef Name="id_tipMas" />
+            </Principal>
+            <Dependent Role="tb_mascota">
+              <PropertyRef Name="id_tipMas" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="conDB" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tb_cliente" EntityType="Self.tb_cliente" />
+          <EntitySet Name="tb_consulta" EntityType="Self.tb_consulta" />
+          <EntitySet Name="tb_mascota" EntityType="Self.tb_mascota" />
+          <EntitySet Name="tb_reserva" EntityType="Self.tb_reserva" />
+          <EntitySet Name="tb_tipoMascota" EntityType="Self.tb_tipoMascota" />
+          <AssociationSet Name="fk_id_cli" Association="Self.fk_id_cli">
+            <End Role="tb_cliente" EntitySet="tb_cliente" />
+            <End Role="tb_mascota" EntitySet="tb_mascota" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_cli2" Association="Self.fk_id_cli2">
+            <End Role="tb_cliente" EntitySet="tb_cliente" />
+            <End Role="tb_reserva" EntitySet="tb_reserva" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_mas" Association="Self.fk_id_mas">
+            <End Role="tb_mascota" EntitySet="tb_mascota" />
+            <End Role="tb_consulta" EntitySet="tb_consulta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_mas2" Association="Self.fk_id_mas2">
+            <End Role="tb_mascota" EntitySet="tb_mascota" />
+            <End Role="tb_reserva" EntitySet="tb_reserva" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_tipMas" Association="Self.fk_id_tipMas">
+            <End Role="tb_tipoMascota" EntitySet="tb_tipoMascota" />
+            <End Role="tb_mascota" EntitySet="tb_mascota" />
+          </AssociationSet>
+          <EntitySet Name="tb_usuarioVet" EntityType="BD_VETERINARIAModel.tb_usuarioVet" />
+          <AssociationSet Name="fk_id_usu" Association="BD_VETERINARIAModel.fk_id_usu">
+            <End Role="tb_usuarioVet" EntitySet="tb_usuarioVet" />
+            <End Role="tb_reserva" EntitySet="tb_reserva" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="tb_usuarioVet">
+          <Key>
+            <PropertyRef Name="id_usu" />
+          </Key>
+          <Property Name="id_usu" Type="Int32" Nullable="false" />
+          <Property Name="usuario" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="contraseña" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tb_reserva" Relationship="BD_VETERINARIAModel.fk_id_usu" FromRole="tb_usuarioVet" ToRole="tb_reserva" />
+        </EntityType>
+        <Association Name="fk_id_usu">
+          <End Type="BD_VETERINARIAModel.tb_usuarioVet" Role="tb_usuarioVet" Multiplicity="0..1" />
+          <End Type="BD_VETERINARIAModel.tb_reserva" Role="tb_reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_usuarioVet">
+              <PropertyRef Name="id_usu" />
+            </Principal>
+            <Dependent Role="tb_reserva">
+              <PropertyRef Name="id_usu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BD_VETERINARIAModelStoreContainer" CdmEntityContainer="conDB">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="BD_VETERINARIAModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_cliente">
+            <EntityTypeMapping TypeName="BD_VETERINARIAModel.tb_cliente">
+              <MappingFragment StoreEntitySet="tb_cliente">
+                <ScalarProperty Name="id_cli" ColumnName="id_cli" />
+                <ScalarProperty Name="nom_cli" ColumnName="nom_cli" />
+                <ScalarProperty Name="ape_cli" ColumnName="ape_cli" />
+                <ScalarProperty Name="telFijo_cli" ColumnName="telFijo_cli" />
+                <ScalarProperty Name="telMovil_cli" ColumnName="telMovil_cli" />
+                <ScalarProperty Name="cor_cli" ColumnName="cor_cli" />
+                <ScalarProperty Name="dir_cli" ColumnName="dir_cli" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_consulta">
+            <EntityTypeMapping TypeName="BD_VETERINARIAModel.tb_consulta">
+              <MappingFragment StoreEntitySet="tb_consulta">
+                <ScalarProperty Name="id_cons" ColumnName="id_cons" />
+                <ScalarProperty Name="fec_cons" ColumnName="fec_cons" />
+                <ScalarProperty Name="sint_cons" ColumnName="sint_cons" />
+                <ScalarProperty Name="diag_cons" ColumnName="diag_cons" />
+                <ScalarProperty Name="id_mas" ColumnName="id_mas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_mascota">
+            <EntityTypeMapping TypeName="BD_VETERINARIAModel.tb_mascota">
+              <MappingFragment StoreEntitySet="tb_mascota">
+                <ScalarProperty Name="id_mas" ColumnName="id_mas" />
+                <ScalarProperty Name="nom_mas" ColumnName="nom_mas" />
+                <ScalarProperty Name="fecNacimiento_mas" ColumnName="fecNacimiento_mas" />
+                <ScalarProperty Name="raza_mas" ColumnName="raza_mas" />
+                <ScalarProperty Name="id_cli" ColumnName="id_cli" />
+                <ScalarProperty Name="id_tipMas" ColumnName="id_tipMas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_reserva">
+            <EntityTypeMapping TypeName="BD_VETERINARIAModel.tb_reserva">
+              <MappingFragment StoreEntitySet="tb_reserva">
+                <ScalarProperty Name="id_usu" ColumnName="id_usu" />
+                <ScalarProperty Name="id_res" ColumnName="id_res" />
+                <ScalarProperty Name="fec_res" ColumnName="fec_res" />
+                <ScalarProperty Name="id_cli" ColumnName="id_cli" />
+                <ScalarProperty Name="id_mas" ColumnName="id_mas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_tipoMascota">
+            <EntityTypeMapping TypeName="BD_VETERINARIAModel.tb_tipoMascota">
+              <MappingFragment StoreEntitySet="tb_tipoMascota">
+                <ScalarProperty Name="id_tipMas" ColumnName="id_tipMas" />
+                <ScalarProperty Name="descripcion_tipMas" ColumnName="descripcion_tipMas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_usuarioVet">
+            <EntityTypeMapping TypeName="BD_VETERINARIAModel.tb_usuarioVet">
+              <MappingFragment StoreEntitySet="tb_usuarioVet">
+                <ScalarProperty Name="contraseña" ColumnName="contraseña" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="id_usu" ColumnName="id_usu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,24 @@
+﻿@using DAO
+@model tb_usuarioVet
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LoginPage.cshtml";
+}
+
+<h2>Login</h2>
+@using (Html.BeginForm())
+{
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.LabelFor(model => model.usuario, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.usuario, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.contraseña, new { @class = "control-label" })
+        @Html.PasswordFor(model => model.contraseña, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Ingresar" class="btn btn-success" />
+    </div>
+</div>
+}
